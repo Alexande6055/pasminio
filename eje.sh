@@ -1,36 +1,40 @@
 #!/bin/bash
-$CHMOD ="chmod"
-$MKDIR="mkdir"
-$USERADD="useradd"
-$ECHO="echo"
-$CHOWN="chown"
-$TOUCH="touch"
+echo "creando variables"
 
-#crear una estructura de carpetas
-$ECHO "creando una estruictura de carpetas"
+DIR_PRINCIPAL="/home/proyecto/"
+CARPETAS=("proyecto_1" "proyecto_2" "proyecto_3")
+USUARIOS=("user_p1" "user_p2")
+ARCHIVOS=("config-p1.conf" "config-p2.conf" "config-p3.conf")
+REGISTROS=("activity-p1.log" "activity-p2.log" "activity-p3.log")
+MKDIR="mkdir -p"
+TOUCH="touch"
+USERADD="sudo useradd -m -s /bin/bash"
 
-$MKDIR -p /home/proyectos
-$TOUCH /home/proyectos
-$TOUCH /home/proyectos/pproyecto1
-$TOUCH /home/proyectos/pproyecto2
-$TOUCH /home/proyectos/pproyecto3
+echo "variables creadas"
 
-#configurar usuarios y permiosos
-$ECHO "creando usuario"
+echo "creando usuarios"
+for US in "${USUARIOS[@]}"; do
+  $USERADD "$US"
+  echo "Usuario $US creado"
+done
+echo "usuarios creados"
 
-$USERADD user_p1:user_p1
-$USERADD user_p2:user_p2
-$USERADD user_p3:user_p3
+echo "creando estructura de directorios"
+$MKDIR "$DIR_PRINCIPAL"
+for PROYECTO in "${CARPETAS[@]}"; do
+  $MKDIR "$DIR_PRINCIPAL/$PROYECTO"
+done
+echo "creados los directorios"
+echo "Creando los archivos de configuración y registro"
 
-$CHOWN -m -s /proyecto/proyecto1/config_p1.conf
-$CHOWN -m -s /proyecto/proyecto2/config_p2.conf
-$CHOWN -m -s /proyecto/proyecto3/config_p3.conf
+for i in "${CARPETAS[@]}"; do
+  A="${ARCHIVOS[$i]}"
+  R="${REGISTROS[$i]}"
 
-$CHOWN -m -s /proyecto/proyecto1/activity_p1.conf
-$CHOWN -m -s /proyecto/proyecto2/activity_p2.conf
-$CHOWN -m -s /proyecto/proyecto3/activity_p3.conf
+  $TOUCH "$DIR_PRINCIPAL/$i/$A"
+  $TOUCH "$DIR_PRINCIPAL/$i/$R"
+done
 
-#asignar permisos
-$CHMOD 777
-$CHMOD 777
-$CHMOD 777
+echo "Se crearon los archivos de configuración y registro"
+
+echo "Asignando permisos"
