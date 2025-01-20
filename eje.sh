@@ -27,12 +27,13 @@ done
 echo "creados los directorios"
 echo "Creando los archivos de configuración y registro"
 
-for i in "${CARPETAS[@]}"; do
+for i in "${!CARPETAS[@]}"; do
+  P="${CARPETAS[$i]}"
   A="${ARCHIVOS[$i]}"
   R="${REGISTROS[$i]}"
 
-  $TOUCH "$DIR_PRINCIPAL/$i/$A"
-  $TOUCH "$DIR_PRINCIPAL/$i/$R"
+  $TOUCH "$DIR_PRINCIPAL/$P/$A"
+  $TOUCH "$DIR_PRINCIPAL/$P/$R"
 done
 
 echo "Se crearon los archivos de configuración y registro"
